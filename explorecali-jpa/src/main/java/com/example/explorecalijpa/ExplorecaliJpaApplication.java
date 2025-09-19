@@ -13,6 +13,8 @@ import com.example.explorecalijpa.business.TourPackageService;
 import com.example.explorecalijpa.business.TourService;
 import com.example.explorecalijpa.model.Difficulty;
 import com.example.explorecalijpa.model.Region;
+import com.example.explorecalijpa.model.TourPackage;
+import com.example.explorecalijpa.model.Tour;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,6 +46,9 @@ public class ExplorecaliJpaApplication implements CommandLineRunner {
 
         System.out.println("\n\nBackpack Cali Tours");
         tourService.lookupByPackage("BC").forEach(System.out::println);
+
+        System.out.println("\n\n Print Tours Challenge");
+        printToursChallenge();
     }
 
     /**
@@ -53,7 +58,11 @@ public class ExplorecaliJpaApplication implements CommandLineRunner {
      * 
      */
     private void printToursChallenge() {
-
+        List<TourPackage> tourPackages = tourPackageService.lookupAll();
+        tourPackages.forEach(tourPackage -> {
+            List<Tour> tours = tourService.lookupByPackageName(tourPackage.getName());
+            tours.forEach(System.out::println);
+        });
     }
 
     /**

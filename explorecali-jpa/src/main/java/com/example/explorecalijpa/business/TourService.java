@@ -1,7 +1,9 @@
 package com.example.explorecalijpa.business;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -33,11 +35,18 @@ public class TourService {
   }
 
   public List<Tour> lookupByDifficulty(Difficulty difficulty) {
-    return Collections.emptyList();
+    return tourRepository.findByDifficulty(difficulty);
   }
 
   public List<Tour> lookupByPackage(String tourPackageCode) {
     return Collections.emptyList();
+  }
+
+  public List<Tour> lookupByPackageName(String tourPackageName) {
+  TourPackage tourPackage = tourPackageRepository.findByName(tourPackageName)
+        .orElseThrow(() -> new RuntimeException("Tour Package not found for id:" + tourPackageName));    
+
+    return tourRepository.findByTourPackageCode(tourPackage.getCode());
   }
 
   public long total() {
